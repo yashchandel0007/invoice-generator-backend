@@ -1,0 +1,13 @@
+{
+  "version": 2,
+  "dgSpecHash": "U5o9eDKQW/gkmPpZUE1gqxkoo3Or5ySj3DsHV7/4Bqdpwg2N+k8P3K620AsWK0ewryCEbSR+2/AJC5t9dUNL9A==",
+  "success": true,
+  "projectFilePath": "D:\\Documents\\.NET Projects\\Invoice.Generator\\Invoice.Generator.Api\\Invoice.Generator.Api.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\yash\\.nuget\\packages\\mediatr\\11.1.0\\mediatr.11.1.0.nupkg.sha512",
+    "C:\\Users\\yash\\.nuget\\packages\\mediatr.contracts\\1.0.1\\mediatr.contracts.1.0.1.nupkg.sha512",
+    "C:\\Users\\yash\\.nuget\\packages\\mediatr.extensions.microsoft.dependencyinjection\\11.0.0\\mediatr.extensions.microsoft.dependencyinjection.11.0.0.nupkg.sha512",
+    "C:\\Users\\yash\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\6.0.0\\microsoft.extensions.dependencyinjection.abstractions.6.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}
