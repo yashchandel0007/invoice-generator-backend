@@ -44,12 +44,14 @@ namespace Invoice.Generator.Api.Site
                 });
             });
 
+            //the following methods didn't work 
             //services.AddMediatR(typeof(Program).Assembly);
             //services.AddMediatR(typeof(Startup).GetTypeInfo().Assembly);
             //services.AddMediatR(AppDomain.CurrentDomain.GetAssemblies());
 
             //answer by Luka Devic worked, on link: https://stackoverflow.com/questions/50774060/asp-net-core-mediatr-error-register-your-handlers-with-the-container
             services.AddMediatR(AppDomain.CurrentDomain.Load("Invoice.Generator.Api"));
+            services.AddControllers().AddNewtonsoftJson();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

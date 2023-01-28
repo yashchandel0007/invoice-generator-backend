@@ -7,7 +7,6 @@
 
   <ItemGroup>
     <PackageReference Include="CouchbaseNetClient" Version="3.4.2" />
-    <PackageReference Include="Microsoft.Extensions.Http" Version="7.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
   </ItemGroup>
 

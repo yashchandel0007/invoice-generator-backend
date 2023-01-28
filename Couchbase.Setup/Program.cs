@@ -58,7 +58,7 @@ namespace Couchbase.Setup
             string path = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName;
             path = path.Replace("bin",filename);
 
-            var cluster = await Cluster.ConnectAsync($"couchbase://localhost", $"{Constants.Couchbase.username}", $"{Constants.Couchbase.password}");
+            var cluster = await Cluster.ConnectAsync($"{Constants.Couchbase.url2}", $"{Constants.Couchbase.username}", $"{Constants.Couchbase.password}");
 
             using (var reader = new StreamReader(path))
             {
@@ -95,7 +95,7 @@ namespace Couchbase.Setup
             var scope = await bucket.ScopeAsync("_default");
             var _collection = await scope.CollectionAsync("_default");
             // define the key
-            string key = ""+ Guid.NewGuid();
+            string key = "currency::"+ Guid.NewGuid();
 
             // do any additional processing
             //record["importer"] = ".NET SDK";

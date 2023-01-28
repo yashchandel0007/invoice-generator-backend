@@ -7,12 +7,14 @@
   <ItemGroup>
     <PackageReference Include="MediatR" Version="11.1.0" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.32" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Invoice.Generator.Api\Invoice.Generator.Api.csproj" />
+    <ProjectReference Include="..\Invoice.Generator.Models\Invoice.Generator.Models.csproj" />
   </ItemGroup>
 
 </Project>

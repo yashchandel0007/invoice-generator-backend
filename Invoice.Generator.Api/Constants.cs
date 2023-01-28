@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace Couchbase.Setup
+namespace Invoice.Generator.Api
 {
-    public static class Constants{
+    public static class Constants
+    {
         public static class Couchbase
         {
             public const string url = "http://localhost:8091/";
@@ -15,7 +14,9 @@ namespace Couchbase.Setup
             public const int ramQuota = 100;
         }
 
+        public static class DocumentType
+        {
+            public const string User = "_user";
+        }
     }
-    
-
 }
