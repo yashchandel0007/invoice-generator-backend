@@ -35,6 +35,10 @@ namespace Invoice.Generator.Api.Site.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateUser([FromBody]CreateUserRequest request)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("Invalid Request!");
+            }
             var result = await _mediator.Send(new CreateUserCommand(request));
             return Ok(result);
         }

@@ -94,7 +94,7 @@ namespace Invoice.Generator.Api.CommandHandler
                             opt.Parameter("$email", email);
                         }).Result;
             var temp = result.Rows.ToListAsync().Result;
-            if (temp?.FirstOrDefault()?.username != null)
+            if (temp?.FirstOrDefault()?.userID != null)
                 return true;
             return false;
         }
