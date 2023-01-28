@@ -1,3 +1,4 @@
+using Couchbase.Extensions.DependencyInjection;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -52,10 +53,11 @@ namespace Invoice.Generator.Api.Site
             //answer by Luka Devic worked, on link: https://stackoverflow.com/questions/50774060/asp-net-core-mediatr-error-register-your-handlers-with-the-container
             services.AddMediatR(AppDomain.CurrentDomain.Load("Invoice.Generator.Api"));
             services.AddControllers().AddNewtonsoftJson();
+            services.AddCouchbase(Configuration.GetSection("Couchbase"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IHostApplicationLifetime appLifetime)
         {
             if (env.IsDevelopment())
             {
@@ -84,6 +86,11 @@ namespace Invoice.Generator.Api.Site
             app.UseSwagger();
             app.UseSwaggerUI(c => {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Showing API V1");
+            });
+
+            appLifetime.ApplicationStopped.Register(() =>
+            {
+                app.ApplicationServices.GetRequiredService<ICouchbaseLifetimeService>().Close();
             });
         }
     }

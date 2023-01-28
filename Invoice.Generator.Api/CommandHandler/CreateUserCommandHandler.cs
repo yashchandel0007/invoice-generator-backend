@@ -11,14 +11,21 @@ using Invoice.Generator.Models;
 using System.Security.Cryptography;
 using Couchbase;
 using Couchbase.Management.Query;
+using Couchbase.KeyValue;
+using Couchbase.Extensions.DependencyInjection;
+using System.Linq;
 
 namespace Invoice.Generator.Api.CommandHandler
 {
     public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, CreateUserResponse>
     {
-        public CreateUserCommandHandler()
-        {
 
+        private readonly IClusterProvider _clusterProvider;
+        private readonly IBucketProvider _bucketProvider;
+        public CreateUserCommandHandler(IClusterProvider clusterProvider, IBucketProvider bucketProvider)
+        {
+            _clusterProvider = clusterProvider;
+            _bucketProvider = bucketProvider;
         }
 
         public async Task<CreateUserResponse> Handle(CreateUserCommand command, CancellationToken cancellationToken)
@@ -54,34 +61,42 @@ namespace Invoice.Generator.Api.CommandHandler
 
         private async Task<CreateUserResponse> PushToCouchbaseAsync(UserDetails userDetails)
         {
-            var cluster = await Cluster.ConnectAsync(
-                $"{Constants.Couchbase.url2}",
-                $"{Constants.Couchbase.username}",
-                $"{Constants.Couchbase.password}");
-
-            // get a bucket reference
-            var bucket = await cluster.BucketAsync("IG_Config_LogIn");
-            // get a user-defined collection reference
-            var scope = await bucket.ScopeAsync("_default");
-            var collection = await scope.CollectionAsync("_default");
+            var bucket = _bucketProvider.GetBucketAsync("IG_Config_LogIn").Result;
+            var collection = bucket.DefaultCollection();
+            if(UsernameExists(collection, userDetails.username))
+                return new CreateUserResponse();
 
             var response = new CreateUserResponse();
             try
             {
-                var result = await collection.InsertAsync("" + Guid.NewGuid(), userDetails);
-                //,
-                //        options=> { options.Timeout(TimeSpan.FromSeconds(5)); }
-                //    );
+                var result = await collection.InsertAsync("" + Guid.NewGuid(), userDetails,
+                        options => { options.Timeout(TimeSpan.FromSeconds(5)); }
+                    );
             }
             catch (Exception ex)
             {
-                response.isUserCreated = false;
                 response.error = ex.Message;
             }
             response.emailAlreadyExists = false;
             response.isUserCreated = true;
             response.error = null;
             return response;
+        }
+
+        private bool UsernameExists(ICouchbaseCollection collection, string email)
+        {
+            var cluster = _clusterProvider.GetClusterAsync().Result;
+
+            var n1ql = "SELECT userID FROM IG_Config_LogIn WHERE _type = '_user' AND username = $email";
+            var result = cluster.QueryAsync<UserDetails>(n1ql,
+                        opt =>
+                        {
+                            opt.Parameter("$email", email);
+                        }).Result;
+            var temp = result.Rows.ToListAsync().Result;
+            if (temp?.FirstOrDefault()?.username != null)
+                return true;
+            return false;
         }
     }
 }

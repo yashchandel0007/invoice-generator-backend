@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using Invoice.Generator.Api.Query;
 using Invoice.Generator.Models.RequestResponse;
 using Invoice.Generator.Api.Command;
+using Couchbase.Extensions.DependencyInjection;
+using Couchbase;
 
 namespace Invoice.Generator.Api.Site.Controllers
 {
@@ -15,8 +17,8 @@ namespace Invoice.Generator.Api.Site.Controllers
     {
 
         private readonly IMediator _mediator;
-        public AuthenticationController(IMediator mediator)
-        {
+        public AuthenticationController(IMediator mediator) 
+        { 
             _mediator = mediator;
         }
 
@@ -34,7 +36,6 @@ namespace Invoice.Generator.Api.Site.Controllers
         public async Task<IActionResult> CreateUser([FromBody]CreateUserRequest request)
         {
             var result = await _mediator.Send(new CreateUserCommand(request));
-            //var response = result.GetAwaiter().GetResult();
             return Ok(result);
         }
     }
