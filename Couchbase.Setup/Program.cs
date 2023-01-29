@@ -37,7 +37,8 @@ namespace Couchbase.Setup
 
             request.Headers.Add("Authorization", "Basic " + Convert.ToBase64String(System.Text.ASCIIEncoding.ASCII.GetBytes($"{Constants.Couchbase.username}:{Constants.Couchbase.password}")));
 
-            request.Content = new StringContent("name=IG_Config_LogIn&bucketType=" + Constants.Couchbase.bucketType + "&ramQuota=" + Constants.Couchbase.ramQuota);
+            request.Content = new StringContent("name=IG_Config_LogIn&bucketType=" + Constants.Couchbase.bucketType + "&ramQuota=" + Constants.Couchbase.ramQuota + "&replicaNumber=" + Constants.Couchbase.replicaNumber
+                + "&durability-min-level" + Constants.Couchbase.durability);
             request.Content.Headers.ContentType = new MediaTypeHeaderValue("application/x-www-form-urlencoded");
 
             HttpResponseMessage response = await client.SendAsync(request);
@@ -74,7 +75,8 @@ namespace Couchbase.Setup
                 Console.WriteLine();
             }
 
-
+            Console.WriteLine("Creating Indexes...");
+            bool indexCreated = true;
             //create primary index
             try
             {
@@ -82,10 +84,13 @@ namespace Couchbase.Setup
                     "IG_Config_LogIn", options => options.IndexName("IG_Config_LogIn_primary_index").IgnoreIfExists(true)  //Deferred(bool deferred) in future
                 );
             }
-            catch (InternalServerFailureException)
+            catch (Exception e)
             {
-                Console.WriteLine("Index already exists");
+                indexCreated = false;
+                Console.WriteLine("Some error occurred while building indexes. "+ e.Message);
             }
+            if(indexCreated)
+                Console.WriteLine("Index Created!!!");
         }
 
         // Newtonsoft.Json.Linq emits `JObjects`

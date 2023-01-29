@@ -8,6 +8,7 @@ namespace Invoice.Generator.Api
         public static class DocumentType
         {
             public const string User = "_user";
+            public const string UserConfig = "_userConfig";
         }
     }
 }

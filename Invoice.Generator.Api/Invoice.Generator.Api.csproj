@@ -6,9 +6,11 @@
 
   <ItemGroup>
     <PackageReference Include="Couchbase.Extensions.DependencyInjection" Version="3.0.1" />
-    <PackageReference Include="CouchbaseNetClient" Version="3.4.2" />
+    <PackageReference Include="Couchbase.Transactions" Version="1.1.0" />
+    <PackageReference Include="CouchbaseNetClient" Version="3.2.3" />
     <PackageReference Include="MediatR" Version="11.1.0" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="7.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
   </ItemGroup>
 

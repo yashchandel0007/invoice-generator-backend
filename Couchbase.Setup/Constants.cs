@@ -13,6 +13,8 @@ namespace Couchbase.Setup
             public const string password = "Administrator";
             public const string bucketType = "couchbase";
             public const int ramQuota = 100;
+            public const int replicaNumber = 0;
+            public const string durability = "none";
         }
 
     }
