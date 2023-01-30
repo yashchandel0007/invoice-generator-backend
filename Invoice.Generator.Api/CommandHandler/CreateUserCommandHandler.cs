@@ -29,7 +29,7 @@ namespace Invoice.Generator.Api.CommandHandler
         public async Task<CreateUserResponse> Handle(CreateUserCommand command, CancellationToken cancellationToken)
         {
             var userDetails = new UserDetails();
-            userDetails.username = command.Request.Email;
+            userDetails.username = command.Request.Email.ToLower();
             userDetails._type = Constants.DocumentType.User;
             userDetails.iterations = 10000;
             var salt = HelperClass.GenerateSalt();

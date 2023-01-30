@@ -23,5 +23,14 @@ namespace Invoice.Generator.Api.CommandHandler
             }
             return salt;
         }
+        public static bool PasswordMatch(string password, string currentPasswordHash, string salt, int iterations)
+        {
+            var tempHash = HelperClass.GetPasswordHash(password, Convert.FromBase64String(salt), iterations);
+
+            if (String.Compare(currentPasswordHash, Convert.ToBase64String(tempHash)) == 0)
+                return true;
+
+            return false;
+        }
     }
 }
